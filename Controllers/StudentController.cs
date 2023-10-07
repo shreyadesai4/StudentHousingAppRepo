@@ -117,6 +117,28 @@ namespace StudentHousingApp.Controllers
         }
 
         [HttpGet]
+        public IActionResult StudentRegistration()
+        {
+            var newStudent = new Student();
+            return View(newStudent);
+        }
+
+        [HttpPost]
+        public IActionResult StudentRegistration(Student student)
+        {
+            if (true) // ModelState.IsValid)
+            {
+                int newStudentID = students.Max(s => s.StudentID) + 1;
+                student.StudentID = newStudentID;
+                students.Add(student);
+
+                return RedirectToAction("StudentDetails", new { id = newStudentID });
+            }
+
+            return View(student);
+        }
+
+        [HttpGet]
         public IActionResult StudentLogin()
         {
             var newStudent = new Student();

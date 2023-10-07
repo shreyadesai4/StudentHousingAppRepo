@@ -1,0 +1,35 @@
+﻿@model List<StudentHousingApp.Models.Landlord>
+
+<h2>Landlords</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var landlord in Model)
+        {
+            <tr>
+                <td>@landlord.LandlordID</td>
+                <td>@landlord.FirstName</td>
+                <td>@landlord.LastName</td>
+                <td>@landlord.Email</td>
+                <td>
+                    <a asp-action="LandlordDetails" asp-route-id="@landlord.LandlordID">Details</a> |
+                    <a asp-action="LandlordEdit" asp-route-id="@landlord.LandlordID">Edit</a> |
+                    <a asp-action="LandlordDelete" asp-route-id="@landlord.LandlordID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="LandlordCreate">Create New</a>
+</p>

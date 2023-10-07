@@ -1,0 +1,23 @@
+﻿@model StudentHousingApp.Models.Landlord
+
+<h2>Landlord Registration</h2>
+
+<form asp-action="LandlordRegistration" method="post">
+    <div class="form-group">
+        <label for="FirstName">First Name:</label>
+        <input type="text" class="form-control" id="FirstName" name="FirstName" value="@Model.FirstName" />
+    </div>
+    <div class="form-group">
+        <label for="LastName">Last Name:</label>
+        <input type="text" class="form-control" id="LastName" name="LastName" value="@Model.LastName" />
+    </div>
+    <div class="form-group">
+        <label for="Email">Email:</label>
+        <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" />
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+
+<p>
+    <a asp-action="LandlordIndex">Back to List</a>
+</p>

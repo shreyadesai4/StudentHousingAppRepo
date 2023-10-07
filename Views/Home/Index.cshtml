@@ -1,8 +1,29 @@
-﻿@{
+﻿@* @{
     ViewData["Title"] = "Home Page";
-}
+} *@
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div>
+    <h2>Student Actions</h2>
+    <ul>
+        <li><a asp-controller="Student" asp-action="StudentRegistration">Student Registration</a></li>
+        <li><a asp-controller="Student" asp-action="StudentLogin">Student Login</a></li>
+    </ul>
+</div>
+
+<div>
+    <h2>Landlord Actions</h2>
+    <ul>
+        <li><a asp-controller="Landlord" asp-action="LandlordRegistration">Landlord Registration</a></li>
+        <li><a asp-controller="Landlord" asp-action="LandlordLogin">Landlord Login</a></li>
+    </ul>
+</div>
+
+<div>
+    <h2>Property Actions</h2>
+    <ul>
+        <li><a asp-controller="Property" asp-action="PropertyIndex">Property Index</a></li>
+
+        @* in the future this will be a landlord action *@
+        <li><a asp-controller="Property" asp-action="PropertyCreate">Property Create</a></li>
+    </ul>
 </div>
