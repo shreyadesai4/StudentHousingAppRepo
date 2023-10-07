@@ -14,6 +14,6 @@ namespace StudentHousingApp.Models
         public string PhoneNumber { get; set; }
 
         // properties owned by landlord
-        // public List<Property> Properties { get; set; }
+        public List<Property> Properties { get; set; }
     }
 }

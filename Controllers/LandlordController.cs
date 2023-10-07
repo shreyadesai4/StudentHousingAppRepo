@@ -54,6 +54,46 @@ namespace StudentHousingApp.Controllers
             return View(landlord);
         }
 
+        public IActionResult LandlordProperties(int id)
+        {
+            int landlordID = id; // GetCurrentLandlordID();
+
+            var landlordProperties = new List<StudentHousingApp.Models.Property> { }; // GetLandlordProperties(landlordID);
+
+            return View(landlordProperties);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult LandlordCreateProperty(Property property)
+        {
+            if (ModelState.IsValid)
+            {
+                int landlordID = 1; // GetCurrentLandlordID();
+
+                var newProperty = new Property
+                {
+                    PropertyID = 3, // GenerateUniquePropertyID(),
+                    LandlordID = landlordID,
+                    Address = property.Address,
+                    RentAmount = property.RentAmount,
+                    Description = property.Description,
+                    IsAvailable = true
+                };
+
+                // add to landlord's list of properties
+                var landlord = landlords.FirstOrDefault(l => l.LandlordID == landlordID);
+                if (landlord != null)
+                {
+                    landlord.Properties.Add(newProperty);
+                }
+
+                return RedirectToAction("PropertyCreate", "Property"); //, new { id = newProperty.PropertyID });
+            }
+
+            return View(property);
+        }
+
     }
 
 }
