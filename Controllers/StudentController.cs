@@ -21,7 +21,72 @@ namespace StudentHousingApp.Controllers
             return View(students);
         }
 
+        public IActionResult StudentDetails(int id)
+        {
+            var student = students.FirstOrDefault(s => s.StudentID == id);
 
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            return View(student);
+        }
+
+        [HttpGet]
+        public IActionResult StudentCreate()
+        {
+            var newStudent = new Student();
+            return View(newStudent);
+        }
+
+        [HttpPost]
+        public IActionResult StudentCreate(Student student)
+        {
+            if (true) // ModelState.IsValid)
+            {
+
+                int newStudentId = students.Max(s => s.StudentID) + 1;
+                student.StudentID = newStudentId;
+                students.Add(student);
+                return RedirectToAction("StudentIndex");
+            }
+
+            return View(student);
+        }
+
+        [HttpGet]
+        public IActionResult StudentEdit(int id)
+        {
+            var student = students.FirstOrDefault(s => s.StudentID == id);
+
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            return View(student);
+        }
+
+        [HttpPost]
+        public IActionResult StudentEdit(int id, Student student)
+        {
+            var existingStudent = students.FirstOrDefault(s => s.StudentID == id);
+
+            if (existingStudent == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                existingStudent.FirstName = student.FirstName;
+                existingStudent.LastName = student.LastName;
+                existingStudent.Email = student.Email;
+                return RedirectToAction("Index");
+            }
+            return View(student);
+        }
 
         // login
 
