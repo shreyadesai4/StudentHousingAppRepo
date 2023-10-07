@@ -22,6 +22,70 @@ namespace StudentHousingApp.Controllers
         {
             return View(landlords);
         }
+        public IActionResult LandlordDetails(int id)
+        {
+            var landlord = landlords.FirstOrDefault(l => l.LandlordID == id);
+
+            if (landlord == null)
+            {
+                return NotFound();
+            }
+
+            return View(landlord);
+        }
+
+        [HttpGet]
+        public IActionResult LandlordCreate()
+        {
+            var newLandlord = new Landlord();
+            return View(newLandlord);
+        }
+
+        [HttpPost]
+        public IActionResult LandlordCreate(Landlord landlord)
+        {
+            if (true) // ModelState.IsValid)
+            {
+                landlord.LandlordID = landlords.Max(l => l.LandlordID) + 1;
+                landlords.Add(landlord);
+                return RedirectToAction("LandlordIndex");
+            }
+            return View(landlord);
+        }
+
+        [HttpGet]
+        public IActionResult LandlordEdit(int id)
+        {
+            var landlord = landlords.FirstOrDefault(l => l.LandlordID == id);
+
+            if (landlord == null)
+            {
+                return NotFound();
+            }
+
+            return View(landlord);
+        }
+
+        [HttpPost]
+        public IActionResult LandlordEdit(int id, Landlord landlord)
+        {
+            var existingLandlord = landlords.FirstOrDefault(l => l.LandlordID == id);
+
+            if (existingLandlord == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                existingLandlord.FirstName = landlord.FirstName;
+                existingLandlord.LastName = landlord.LastName;
+                existingLandlord.Email = landlord.Email;
+                return RedirectToAction("LandlordIndex");
+            }
+            return View(landlord);
+        }
+
 
         // registration
         // login
