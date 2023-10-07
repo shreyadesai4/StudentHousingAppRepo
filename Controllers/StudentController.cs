@@ -24,6 +24,32 @@ namespace StudentHousingApp.Controllers
         // login
 
         [HttpGet]
+        public IActionResult StudentDelete(int id)
+        {
+            var student = students.FirstOrDefault(s => s.StudentID == id);
+
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            return View(student);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult StudentDeleteConfirmed(int id)
+        {
+            var student = students.FirstOrDefault(s => s.StudentID == id);
+
+            if (student != null)
+            {
+                students.Remove(student);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
         public IActionResult StudentLogin()
         {
             var newStudent = new Student();
