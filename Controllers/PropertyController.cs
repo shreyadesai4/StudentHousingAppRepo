@@ -16,5 +16,43 @@ namespace StudentHousingApp.Controllers
         {
             return View(properties);
         }
+
+        public IActionResult PropertyDetails(int id)
+        {
+            var property = properties.FirstOrDefault(p => p.PropertyID == id);
+
+            if (property == null)
+            {
+                return NotFound();
+            }
+
+            return View(property);
+        }
+
+        [HttpGet]
+        public IActionResult PropertyCreate()
+        {
+            var newProperty = new Property();
+            return View(newProperty);
+        }
+
+        [HttpPost]
+        public IActionResult PropertyCreate(Property property)
+        {
+            if (ModelState.IsValid)
+            {
+                int newPropertyID = properties.Max(p => p.PropertyID) + 1;
+
+                property.PropertyID = newPropertyID;
+
+                // property.LandlordID = GetCurrentLandlordID();
+
+                properties.Add(property);
+
+                return RedirectToAction("PropertyIndex");
+            }
+
+            return View(property);
+        }
     }
 }
