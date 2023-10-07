@@ -29,6 +29,58 @@ namespace StudentHousingApp.Controllers
         // create property listing
 
         [HttpGet]
+        public IActionResult LandlordDelete(int id)
+        {
+            var landlord = landlords.FirstOrDefault(l => l.LandlordID == id);
+
+            if (landlord == null)
+            {
+                return NotFound();
+            }
+
+            return View(landlord);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult LandlordDeleteConfirmed(int id)
+        {
+            var landlord = landlords.FirstOrDefault(l => l.LandlordID == id);
+
+            if (landlord != null)
+            {
+                landlords.Remove(landlord);
+            }
+
+            return RedirectToAction("LandlordIndex");
+        }
+
+        // registration
+        // login
+        // list properties owned by landlord
+        // create property listing
+
+        [HttpGet]
+        public IActionResult LandlordRegistration()
+        {
+            var newLandlord = new Landlord();
+            return View(newLandlord);
+        }
+
+        [HttpPost]
+        public IActionResult LandlordRegistration(Landlord landlord)
+        {
+            if (true) // ModelState.IsValid)
+            {
+                int newLandlordID = landlords.Max(l => l.LandlordID) + 1;
+                landlord.LandlordID = newLandlordID;
+                landlords.Add(landlord);
+                return RedirectToAction("LandlordDetails", new { id = newLandlordID });
+            }
+
+            return View(landlord);
+        }
+
+        [HttpGet]
         public IActionResult LandlordLogin()
         {
             var newLandlord = new Landlord();
