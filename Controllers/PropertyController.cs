@@ -12,9 +12,9 @@ namespace StudentHousingApp.Controllers
             new Property { PropertyID = 2, LandlordID = 2, Address = "999 Grover Street", RentAmount = 800, Description = "gang violence", IsAvailable = true },
         };
 
-        public IActionResult Index()
+        public IActionResult PropertyIndex()
         {
-            return View();
+            return View(properties);
         }
     }
 }
