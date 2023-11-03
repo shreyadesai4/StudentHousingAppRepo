@@ -2,29 +2,36 @@
 using StudentHousingApp.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace StudentHousingApp.Controllers
 {
+
     public class LandlordController : Controller
     {
-        // public? will change to database
-        private static List<Landlord> landlords = new List<Landlord>
-    {
-        new Landlord { LandlordID = 1, FirstName = "J", LastName = "Nehru", Email = "nehru@india.com" },
-        new Landlord { LandlordID = 2, FirstName = "M", LastName = "Gandhi", Email = "gandhi@india.com" },
-        new Landlord { LandlordID = 3, FirstName = "B", LastName = "Singh", Email = "singh@india.com" },
-    };
 
-        // basic views
+        private readonly LandlordContext _context;
+
+        // list all landlords
+        // view landlord details
+        // delete landlords
+
+        public LandlordController(LandlordContext context)
+        {
+            _context = context;
+        }
 
         public IActionResult LandlordIndex()
         {
+            var landlords = _context.Landlords.ToList();
             return View(landlords);
         }
+
         public IActionResult LandlordDetails(int id)
         {
-            var landlord = landlords.FirstOrDefault(l => l.LandlordID == id);
+
+            var landlord = _context.Landlords.FirstOrDefault(l => l.LandlordID == id);
 
             if (landlord == null)
             {
@@ -33,6 +40,8 @@ namespace StudentHousingApp.Controllers
 
             return View(landlord);
         }
+
+        /*
 
         [HttpGet]
         public IActionResult LandlordCreate()
@@ -46,8 +55,9 @@ namespace StudentHousingApp.Controllers
         {
             if (true) // ModelState.IsValid)
             {
-                landlord.LandlordID = landlords.Max(l => l.LandlordID) + 1;
-                landlords.Add(landlord);
+                _context.Landlords.Add(landlord);
+                _context.SaveChanges();
+
                 return RedirectToAction("LandlordIndex");
             }
             return View(landlord);
@@ -56,7 +66,7 @@ namespace StudentHousingApp.Controllers
         [HttpGet]
         public IActionResult LandlordEdit(int id)
         {
-            var landlord = landlords.FirstOrDefault(l => l.LandlordID == id);
+            var landlord = _context.Landlords.FirstOrDefault(l => l.LandlordID == id);
 
             if (landlord == null)
             {
@@ -66,36 +76,12 @@ namespace StudentHousingApp.Controllers
             return View(landlord);
         }
 
-        [HttpPost]
-        public IActionResult LandlordEdit(int id, Landlord landlord)
-        {
-            var existingLandlord = landlords.FirstOrDefault(l => l.LandlordID == id);
-
-            if (existingLandlord == null)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                existingLandlord.FirstName = landlord.FirstName;
-                existingLandlord.LastName = landlord.LastName;
-                existingLandlord.Email = landlord.Email;
-                return RedirectToAction("LandlordIndex");
-            }
-            return View(landlord);
-        }
-
-
-        // registration
-        // login
-        // list properties owned by landlord
-        // create property listing
+        */
 
         [HttpGet]
         public IActionResult LandlordDelete(int id)
         {
-            var landlord = landlords.FirstOrDefault(l => l.LandlordID == id);
+            var landlord = _context.Landlords.FirstOrDefault(l => l.LandlordID == id);
 
             if (landlord == null)
             {
@@ -105,17 +91,28 @@ namespace StudentHousingApp.Controllers
             return View(landlord);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("LandlordDeleteConfirmed")]
         public IActionResult LandlordDeleteConfirmed(int id)
         {
-            var landlord = landlords.FirstOrDefault(l => l.LandlordID == id);
+            var landlord = _context.Landlords.FirstOrDefault(l => l.LandlordID == id);
 
-            if (landlord != null)
+            if (landlord == null)
             {
-                landlords.Remove(landlord);
+                return NotFound();
             }
 
-            return RedirectToAction("LandlordIndex");
+            try
+            {
+                _context.Landlords.Remove(landlord);
+                _context.SaveChanges();
+
+                return RedirectToAction("LandlordIndex");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the landlord: " + ex.Message);
+                return View("LandlordDelete", landlord);
+            }
         }
 
         // registration
@@ -135,10 +132,10 @@ namespace StudentHousingApp.Controllers
         {
             if (true) // ModelState.IsValid)
             {
-                int newLandlordID = landlords.Max(l => l.LandlordID) + 1;
-                landlord.LandlordID = newLandlordID;
-                landlords.Add(landlord);
-                return RedirectToAction("LandlordDetails", new { id = newLandlordID });
+                _context.Landlords.Add(landlord);
+                _context.SaveChanges();
+
+                return RedirectToAction("LandlordDetails", new { id = landlord.LandlordID });
             }
 
             return View(landlord);
@@ -156,7 +153,7 @@ namespace StudentHousingApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var authenticatedLandlord = landlords.FirstOrDefault(l =>
+                var authenticatedLandlord = _context.Landlords.FirstOrDefault(l =>
                     l.Email == landlord.Email && l.Password == landlord.Password);
 
                 if (authenticatedLandlord != null)
@@ -197,19 +194,17 @@ namespace StudentHousingApp.Controllers
                     IsAvailable = true
                 };
 
-                // add to landlord's list of properties
-                var landlord = landlords.FirstOrDefault(l => l.LandlordID == landlordID);
+                var landlord = _context.Landlords.FirstOrDefault(l => l.LandlordID == landlordID);
                 if (landlord != null)
                 {
                     landlord.Properties.Add(newProperty);
+                    _context.SaveChanges();
                 }
 
                 return RedirectToAction("PropertyCreate", "Property"); //, new { id = newProperty.PropertyID });
+      
             }
-
             return View(property);
         }
-
     }
-
 }
