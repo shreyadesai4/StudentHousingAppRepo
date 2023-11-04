@@ -12,29 +12,29 @@ namespace StudentHousingApp.Data
 {
     public class EditModel : PageModel
     {
-        private readonly StudentHousingApp.Data.StudentContext _context;
+        private readonly StudentHousingApp.Data.PropertyContext _context;
 
-        public EditModel(StudentHousingApp.Data.StudentContext context)
+        public EditModel(StudentHousingApp.Data.PropertyContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public Student Student { get; set; } = default!;
+        public Property Property { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Student == null)
+            if (id == null || _context.Property == null)
             {
                 return NotFound();
             }
 
-            var student =  await _context.Student.FirstOrDefaultAsync(m => m.StudentID == id);
-            if (student == null)
+            var property =  await _context.Property.FirstOrDefaultAsync(m => m.PropertyID == id);
+            if (property == null)
             {
                 return NotFound();
             }
-            Student = student;
+            Property = property;
             return Page();
         }
 
@@ -47,7 +47,7 @@ namespace StudentHousingApp.Data
                 return Page();
             }
 
-            _context.Attach(Student).State = EntityState.Modified;
+            _context.Attach(Property).State = EntityState.Modified;
 
             try
             {
@@ -55,7 +55,7 @@ namespace StudentHousingApp.Data
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StudentExists(Student.StudentID))
+                if (!PropertyExists(Property.PropertyID))
                 {
                     return NotFound();
                 }
@@ -68,9 +68,9 @@ namespace StudentHousingApp.Data
             return RedirectToPage("./Index");
         }
 
-        private bool StudentExists(int id)
+        private bool PropertyExists(int id)
         {
-          return (_context.Student?.Any(e => e.StudentID == id)).GetValueOrDefault();
+          return (_context.Property?.Any(e => e.PropertyID == id)).GetValueOrDefault();
         }
     }
 }

@@ -11,20 +11,20 @@ namespace StudentHousingApp.Data
 {
     public class IndexModel : PageModel
     {
-        private readonly StudentHousingApp.Data.StudentContext _context;
+        private readonly StudentHousingApp.Data.PropertyContext _context;
 
-        public IndexModel(StudentHousingApp.Data.StudentContext context)
+        public IndexModel(StudentHousingApp.Data.PropertyContext context)
         {
             _context = context;
         }
 
-        public IList<Student> Student { get;set; } = default!;
+        public IList<Property> Property { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            if (_context.Student != null)
+            if (_context.Property != null)
             {
-                Student = await _context.Student.ToListAsync();
+                Property = await _context.Property.ToListAsync();
             }
         }
     }

@@ -11,9 +11,9 @@ namespace StudentHousingApp.Data
 {
     public class CreateModel : PageModel
     {
-        private readonly StudentHousingApp.Data.StudentContext _context;
+        private readonly StudentHousingApp.Data.PropertyContext _context;
 
-        public CreateModel(StudentHousingApp.Data.StudentContext context)
+        public CreateModel(StudentHousingApp.Data.PropertyContext context)
         {
             _context = context;
         }
@@ -24,18 +24,18 @@ namespace StudentHousingApp.Data
         }
 
         [BindProperty]
-        public Student Student { get; set; } = default!;
+        public Property Property { get; set; } = default!;
         
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Student == null || Student == null)
+          if (!ModelState.IsValid || _context.Property == null || Property == null)
             {
                 return Page();
             }
 
-            _context.Student.Add(Student);
+            _context.Property.Add(Property);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

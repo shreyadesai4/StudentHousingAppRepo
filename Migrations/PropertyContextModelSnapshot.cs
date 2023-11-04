@@ -3,13 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using StudentHousingApp.Data;
 
 #nullable disable
 
 namespace StudentHousingApp.Migrations
 {
-    [DbContext(typeof(LandlordContext))]
-    partial class LandlordContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(PropertyContext))]
+    partial class PropertyContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -19,35 +20,6 @@ namespace StudentHousingApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("StudentHousingApp.Models.Landlord", b =>
-                {
-                    b.Property<int>("LandlordID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LandlordID"), 1L, 1);
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("LandlordID");
-
-                    b.ToTable("Landlords");
-                });
 
             modelBuilder.Entity("StudentHousingApp.Models.Property", b =>
                 {
@@ -76,23 +48,7 @@ namespace StudentHousingApp.Migrations
 
                     b.HasKey("PropertyID");
 
-                    b.HasIndex("LandlordID");
-
                     b.ToTable("Property");
-                });
-
-            modelBuilder.Entity("StudentHousingApp.Models.Property", b =>
-                {
-                    b.HasOne("StudentHousingApp.Models.Landlord", null)
-                        .WithMany("Properties")
-                        .HasForeignKey("LandlordID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("StudentHousingApp.Models.Landlord", b =>
-                {
-                    b.Navigation("Properties");
                 });
 #pragma warning restore 612, 618
         }

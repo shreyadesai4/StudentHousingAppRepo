@@ -14,45 +14,45 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Student[0].Password)
+                @Html.DisplayNameFor(model => model.Property[0].LandlordID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Student[0].FirstName)
+                @Html.DisplayNameFor(model => model.Property[0].Address)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Student[0].LastName)
+                @Html.DisplayNameFor(model => model.Property[0].RentAmount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Student[0].Email)
+                @Html.DisplayNameFor(model => model.Property[0].Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Student[0].PhoneNumber)
+                @Html.DisplayNameFor(model => model.Property[0].IsAvailable)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Student) {
+@foreach (var item in Model.Property) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Password)
+                @Html.DisplayFor(modelItem => item.LandlordID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
+                @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LastName)
+                @Html.DisplayFor(modelItem => item.RentAmount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Email)
+                @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
+                @Html.DisplayFor(modelItem => item.IsAvailable)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.StudentID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.StudentID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.StudentID">Delete</a>
+                <a asp-page="./Edit" asp-route-id="@item.PropertyID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.PropertyID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.PropertyID">Delete</a>
             </td>
         </tr>
 }

@@ -11,48 +11,48 @@ namespace StudentHousingApp.Data
 {
     public class DeleteModel : PageModel
     {
-        private readonly StudentHousingApp.Data.StudentContext _context;
+        private readonly StudentHousingApp.Data.PropertyContext _context;
 
-        public DeleteModel(StudentHousingApp.Data.StudentContext context)
+        public DeleteModel(StudentHousingApp.Data.PropertyContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-      public Student Student { get; set; } = default!;
+      public Property Property { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Student == null)
+            if (id == null || _context.Property == null)
             {
                 return NotFound();
             }
 
-            var student = await _context.Student.FirstOrDefaultAsync(m => m.StudentID == id);
+            var property = await _context.Property.FirstOrDefaultAsync(m => m.PropertyID == id);
 
-            if (student == null)
+            if (property == null)
             {
                 return NotFound();
             }
             else 
             {
-                Student = student;
+                Property = property;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.Student == null)
+            if (id == null || _context.Property == null)
             {
                 return NotFound();
             }
-            var student = await _context.Student.FindAsync(id);
+            var property = await _context.Property.FindAsync(id);
 
-            if (student != null)
+            if (property != null)
             {
-                Student = student;
-                _context.Student.Remove(Student);
+                Property = property;
+                _context.Property.Remove(Property);
                 await _context.SaveChangesAsync();
             }
 
