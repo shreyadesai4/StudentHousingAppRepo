@@ -1,0 +1,22 @@
+﻿@model StudentHousingApp.Models.Landlord
+
+<h2>Landlord Details</h2>
+
+<dl class="row">
+    <dt class="col-sm-2">Landlord ID:</dt>
+    <dd class="col-sm-10">@Model.LandlordID</dd>
+
+    <dt class="col-sm-2">First Name:</dt>
+    <dd class="col-sm-10">@Model.FirstName</dd>
+
+    <dt class="col-sm-2">Last Name:</dt>
+    <dd class="col-sm-10">@Model.LastName</dd>
+
+    <dt class="col-sm-2">Email:</dt>
+    <dd class="col-sm-10">@Model.Email</dd>
+
+</dl>
+
+<p>
+    <a asp-action="LandlordIndex">Back to List</a>
+</p>

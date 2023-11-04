@@ -11,7 +11,8 @@ namespace StudentHousingApp.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public string PhoneNumber { get; set; }
+
+        // public string PhoneNumber { get; set; }
 
         // properties owned by landlord
         public List<Property> Properties { get; set; }
