@@ -1,33 +1,34 @@
-﻿@* @{
+﻿@* Set the page title. *@
+@{
     ViewData["Title"] = "Home Page";
-} *@
+}
 
-<div>
+<div class="container mt-5">
     <h2>Student Actions</h2>
-    <ul>        
-        <li><a asp-controller="Student" asp-action="StudentIndex">Student Index</a></li>
-        <li><a asp-controller="Student" asp-action="StudentDetails">Student Details</a></li>
-        <li><a asp-controller="Student" asp-action="StudentLogin">Student Login</a></li>
-        <li><a asp-controller="Student" asp-action="StudentRegistration">Student Registration</a></li>
+    <ul class="list-group">
+        <li class="list-group-item"><a class="text-decoration-none" asp-controller="Student" asp-action="StudentIndex">Student Index</a></li>
+        <li class="list-group-item"><a class="text-decoration-none" asp-controller="Student" asp-action="StudentDetails">Student Details</a></li>
+        <li class="list-group-item"><a class="text-decoration-none" asp-controller="Student" asp-action="StudentLogin">Student Login</a></li>
+        <li class="list-group-item"><a class="text-decoration-none" asp-controller="Student" asp-action="StudentRegistration">Student Registration</a></li>
     </ul>
 </div>
 
-<div>
+<div class="container mt-5">
     <h2>Landlord Actions</h2>
-    <ul>
-        <li><a asp-controller="Landlord" asp-action="LandlordIndex">Landlord Index</a></li>
-        <li><a asp-controller="Landlord" asp-action="LandlordDetails">Landlord Details</a></li>
-        <li><a asp-controller="Landlord" asp-action="LandlordLogin">Landlord Login</a></li>
-        <li><a asp-controller="Landlord" asp-action="LandlordRegistration">Landlord Registration</a></li>
+    <ul class="list-group">
+        <li class="list-group-item"><a class="text-decoration-none" asp-controller="Landlord" asp-action="LandlordIndex">Landlord Index</a></li>
+        <li class="list-group-item"><a class="text-decoration-none" asp-controller="Landlord" asp-action="LandlordDetails">Landlord Details</a></li>
+        <li class="list-group-item"><a class="text-decoration-none" asp-controller="Landlord" asp-action="LandlordLogin">Landlord Login</a></li>
+        <li class="list-group-item"><a class="text-decoration-none" asp-controller="Landlord" asp-action="LandlordRegistration">Landlord Registration</a></li>
     </ul>
 </div>
 
-<div>
+<div class="container mt-5">
     <h2>Property Actions</h2>
-    <ul>
-        <li><a asp-controller="Property" asp-action="PropertyIndex">Property Index</a></li>
-        <li><a asp-controller="Property" asp-action="PropertyDetails">Property Details</a></li>
-        @* in the future this will be a landlord action *@
-        <li><a asp-controller="Property" asp-action="PropertyCreate">Property Create</a></li
+    <ul class="list-group">
+        <li class="list-group-item"><a class="text-decoration-none" asp-controller="Property" asp-action="PropertyIndex">Property Index</a></li>
+        <li class="list-group-item"><a class="text-decoration-none" asp-controller="Property" asp-action="PropertyDetails">Property Details</a></li>
+        @* in the future, this will be a landlord action *@
+        <li class="list-group-item"><a class="text-decoration-none" asp-controller="Property" asp-action="PropertyCreate">Property Create</a></li>
     </ul>
 </div>

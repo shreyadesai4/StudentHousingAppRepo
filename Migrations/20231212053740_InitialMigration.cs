@@ -44,31 +44,31 @@ namespace StudentHousingApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Property",
+                name: "Properties",
                 columns: table => new
                 {
                     PropertyID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    LandlordID = table.Column<int>(type: "INTEGER", nullable: false),
+                    TempLandlordID = table.Column<int>(type: "INTEGER", nullable: false),
                     Address = table.Column<string>(type: "TEXT", nullable: false),
                     RentAmount = table.Column<decimal>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
-                    IsAvailable = table.Column<bool>(type: "INTEGER", nullable: false)
+                    IsAvailable = table.Column<bool>(type: "INTEGER", nullable: false),
+                    LandlordID = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Property", x => x.PropertyID);
+                    table.PrimaryKey("PK_Properties", x => x.PropertyID);
                     table.ForeignKey(
-                        name: "FK_Property_Landlords_LandlordID",
+                        name: "FK_Properties_Landlords_LandlordID",
                         column: x => x.LandlordID,
                         principalTable: "Landlords",
-                        principalColumn: "LandlordID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "LandlordID");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Property_LandlordID",
-                table: "Property",
+                name: "IX_Properties_LandlordID",
+                table: "Properties",
                 column: "LandlordID");
         }
 
@@ -76,7 +76,7 @@ namespace StudentHousingApp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Property");
+                name: "Properties");
 
             migrationBuilder.DropTable(
                 name: "Students");

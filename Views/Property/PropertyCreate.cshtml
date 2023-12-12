@@ -23,6 +23,7 @@
         <textarea class="form-control" id="Description" name="Description">@Model.Description</textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
+    <br>
     <div class="form-group">
         <label for="IsAvailable">Is Available:</label>
         <div>
@@ -34,10 +35,11 @@
             <label for="IsAvailableNo">No</label>
         </div>
     </div>
-
+    <br>
     <button type="submit" class="btn btn-primary">Create</button>
 </form>
 
 <p>
+    <br>
     <a asp-action="PropertyIndex">Back to the list of all Properties</a>
 </p>
