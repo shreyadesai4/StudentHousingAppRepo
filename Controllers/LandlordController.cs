@@ -1,23 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentHousingApp.Models;
+using StudentHousingApp.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace StudentHousingApp.Controllers
 {
-
     public class LandlordController : Controller
     {
+        private readonly ApplicationDbContext _context;
 
-        private readonly LandlordContext _context;
-
-        // list all landlords
-        // view landlord details
-        // delete landlords
-
-        public LandlordController(LandlordContext context)
+        public LandlordController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -30,43 +25,7 @@ namespace StudentHousingApp.Controllers
 
         public IActionResult LandlordDetails(int id)
         {
-
-            var landlord = _context.Landlords.FirstOrDefault(l => l.LandlordID == id);
-
-            if (landlord == null)
-            {
-                return NotFound();
-            }
-
-            return View(landlord);
-        }
-
-        /*
-
-        [HttpGet]
-        public IActionResult LandlordCreate()
-        {
-            var newLandlord = new Landlord();
-            return View(newLandlord);
-        }
-
-        [HttpPost]
-        public IActionResult LandlordCreate(Landlord landlord)
-        {
-            if (true) // ModelState.IsValid)
-            {
-                _context.Landlords.Add(landlord);
-                _context.SaveChanges();
-
-                return RedirectToAction("LandlordIndex");
-            }
-            return View(landlord);
-        }
-
-        [HttpGet]
-        public IActionResult LandlordEdit(int id)
-        {
-            var landlord = _context.Landlords.FirstOrDefault(l => l.LandlordID == id);
+            var landlord = _context.Landlords.Include(l => l.Properties).FirstOrDefault(l => l.LandlordID == id);
 
             if (landlord == null)
             {
@@ -75,8 +34,6 @@ namespace StudentHousingApp.Controllers
 
             return View(landlord);
         }
-
-        */
 
         [HttpGet]
         public IActionResult LandlordDelete(int id)
@@ -115,11 +72,6 @@ namespace StudentHousingApp.Controllers
             }
         }
 
-        // registration
-        // login
-        // list properties owned by landlord
-        // create property listing
-
         [HttpGet]
         public IActionResult LandlordRegistration()
         {
@@ -130,7 +82,7 @@ namespace StudentHousingApp.Controllers
         [HttpPost]
         public IActionResult LandlordRegistration(Landlord landlord)
         {
-            if (true) // ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 _context.Landlords.Add(landlord);
                 _context.SaveChanges();
@@ -169,10 +121,7 @@ namespace StudentHousingApp.Controllers
 
         public IActionResult LandlordProperties(int id)
         {
-            int landlordID = id; // GetCurrentLandlordID();
-
-            var landlordProperties = new List<StudentHousingApp.Models.Property> { }; // GetLandlordProperties(landlordID);
-
+            var landlordProperties = _context.Properties.Where(p => p.TempLandlordID == id).ToList();
             return View(landlordProperties);
         }
 
@@ -182,28 +131,12 @@ namespace StudentHousingApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                int landlordID = 1; // GetCurrentLandlordID();
+                _context.Properties.Add(property);
+                _context.SaveChanges();
 
-                var newProperty = new Property
-                {
-                    PropertyID = 3, // GenerateUniquePropertyID(),
-                    LandlordID = landlordID,
-                    Address = property.Address,
-                    RentAmount = property.RentAmount,
-                    Description = property.Description,
-                    IsAvailable = true
-                };
-
-                var landlord = _context.Landlords.FirstOrDefault(l => l.LandlordID == landlordID);
-                if (landlord != null)
-                {
-                    landlord.Properties.Add(newProperty);
-                    _context.SaveChanges();
-                }
-
-                return RedirectToAction("PropertyCreate", "Property"); //, new { id = newProperty.PropertyID });
-      
+                return RedirectToAction("PropertyCreate", "Property");
             }
+
             return View(property);
         }
     }

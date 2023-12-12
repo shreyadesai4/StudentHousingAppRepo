@@ -1,58 +1,54 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StudentHousingApp.Models;
+using StudentHousingApp.Data;
+using System.Linq;
 
-namespace StudentHousingApp.Controllers
+public class PropertyController : Controller
 {
-    public class PropertyController : Controller
-    {
+	private readonly ApplicationDbContext _context;
 
-        private static List<Property> properties = new List<Property>
-        {
-            new Property { PropertyID = 1, LandlordID = 1, Address = "123 Trafalgar Road", RentAmount = 1000, Description = "very cozy", IsAvailable = true },
-            new Property { PropertyID = 2, LandlordID = 2, Address = "345 Sitladevi Road", RentAmount = 800, Description = "gang violence", IsAvailable = true },
-        };
+	public PropertyController(ApplicationDbContext context)
+	{
+		_context = context;
+	}
 
-        public IActionResult PropertyIndex()
-        {
-            return View(properties);
-        }
+	public IActionResult PropertyIndex()
+	{
+		var allProperties = _context.Properties.ToList();
+		return View(allProperties);
+	}
 
-        public IActionResult PropertyDetails(int id)
-        {
-            var property = properties.FirstOrDefault(p => p.PropertyID == id);
+	public IActionResult PropertyDetails(int id)
+	{
+		var property = _context.Properties.FirstOrDefault(p => p.PropertyID == id);
 
-            if (property == null)
-            {
-                return NotFound();
-            }
+		if (property == null)
+		{
+			return NotFound();
+		}
 
-            return View(property);
-        }
+		return View(property);
+	}
 
-        [HttpGet]
-        public IActionResult PropertyCreate()
-        {
-            var newProperty = new Property();
-            return View(newProperty);
-        }
+	[HttpGet]
+	public IActionResult PropertyCreate()
+	{
+		var newProperty = new Property();
+		return View(newProperty);
+	}
 
-        [HttpPost]
-        public IActionResult PropertyCreate(Property property)
-        {
-            if (ModelState.IsValid)
-            {
-                int newPropertyID = properties.Max(p => p.PropertyID) + 1;
+	[HttpPost]
+	public IActionResult PropertyCreate(Property property)
+	{
+		if (ModelState.IsValid)
+		{
+			_context.Properties.Add(property);
+			_context.SaveChanges();
 
-                property.PropertyID = newPropertyID;
+			return RedirectToAction("PropertyIndex");
+		}
 
-                // property.LandlordID = GetCurrentLandlordID();
-
-                properties.Add(property);
-
-                return RedirectToAction("PropertyIndex");
-            }
-
-            return View(property);
-        }
-    }
+		return View(property);
+	}
 }
