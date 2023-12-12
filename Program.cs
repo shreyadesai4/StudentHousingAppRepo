@@ -39,7 +39,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
 	name: "default",
-	pattern: "{controller=Home}/{action=Index}/{id?}");
+	pattern: "{controller=Property}/{action=PropertyIndex}/{id?}");
 
 app.MapControllerRoute(
 	name: "landlordDelete",
