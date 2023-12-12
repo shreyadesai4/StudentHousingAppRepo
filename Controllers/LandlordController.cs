@@ -17,12 +17,14 @@ namespace StudentHousingApp.Controllers
             _context = context;
         }
 
+        // Displays the list of all landlords.
         public IActionResult LandlordIndex()
         {
             var landlords = _context.Landlords.ToList();
             return View(landlords);
         }
 
+        // Displays details of a specific landlord including their properties.
         public IActionResult LandlordDetails(int id)
         {
             var landlord = _context.Landlords.Include(l => l.Properties).FirstOrDefault(l => l.LandlordID == id);
@@ -35,6 +37,7 @@ namespace StudentHousingApp.Controllers
             return View(landlord);
         }
 
+        // Gets details of a landlord for deletion confirmation.
         [HttpGet]
         public IActionResult LandlordDelete(int id)
         {
@@ -48,6 +51,7 @@ namespace StudentHousingApp.Controllers
             return View(landlord);
         }
 
+        // Deletes a landlord after confirmation.
         [HttpPost, ActionName("LandlordDeleteConfirmed")]
         public IActionResult LandlordDeleteConfirmed(int id)
         {
@@ -72,6 +76,7 @@ namespace StudentHousingApp.Controllers
             }
         }
 
+        // Displays the registration form for a new landlord.
         [HttpGet]
         public IActionResult LandlordRegistration()
         {
@@ -79,6 +84,7 @@ namespace StudentHousingApp.Controllers
             return View(newLandlord);
         }
 
+        // Handles the registration of a new landlord.
         [HttpPost]
         public IActionResult LandlordRegistration(Landlord landlord)
         {
@@ -93,6 +99,7 @@ namespace StudentHousingApp.Controllers
             return View(landlord);
         }
 
+        // Displays the login form for a landlord.
         [HttpGet]
         public IActionResult LandlordLogin()
         {
@@ -100,6 +107,7 @@ namespace StudentHousingApp.Controllers
             return View(newLandlord);
         }
 
+        // Handles the login process for a landlord.
         [HttpPost]
         public IActionResult LandlordLogin(Landlord landlord)
         {
@@ -119,12 +127,14 @@ namespace StudentHousingApp.Controllers
             return View(landlord);
         }
 
+        // Displays the properties owned by a specific landlord.
         public IActionResult LandlordProperties(int id)
         {
             var landlordProperties = _context.Properties.Where(p => p.TempLandlordID == id).ToList();
             return View(landlordProperties);
         }
 
+        // Handles the creation of a new property owned by a landlord.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult LandlordCreateProperty(Property property)

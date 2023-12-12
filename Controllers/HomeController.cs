@@ -13,16 +13,19 @@ namespace StudentHousingApp.Controllers
             _logger = logger;
         }
 
+        // Displays the default home page.
         public IActionResult Index()
         {
             return View();
         }
 
+        // Displays an information page.
         public IActionResult Info()
         {
             return View();
         }
 
+        // Handles errors and displays an error page.
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
